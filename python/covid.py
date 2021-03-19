@@ -69,8 +69,6 @@ def read_csv(url, print=False):
 
 ############## Global Functions Ends ################################
 
-############## Global Functions Ends ################################
-
 # Get COVID-19 global data from WHO
 global_covid_19_data = read_csv("https://covid19.who.int/WHO-COVID-19-global-table-data.csv")
 
@@ -148,7 +146,7 @@ us.columns = ['confirmed']
 us['deaths'] = transform_data(df=raw_deaths, name='US').values
 print(us.tail())
 
-# Insight 1 : Plot the rise of Covid infection in USA and the associated deaths in US
+# Insight 1 : The Aim of this insight is to plot the rise of Covid infection in USA and the associated deaths in US
 plt.style.use('seaborn-white')
 fig, (ax1, ax2) = plt.subplots(nrows=2, ncols=1, figsize=(10, 10), gridspec_kw={'height_ratios': [1, 2]})
 fig.suptitle('Infections and deaths in USA')
@@ -161,9 +159,38 @@ ireland.columns = ['confirmed']
 ireland['deaths'] = transform_data(df=raw_deaths, name='Ireland').values
 print(ireland.tail())
 
-# Insight 2 : Shows the rise of Covid infection in Ireland
+# Insight 2 : The aim of this insight is to provide a visual context on the rise of Covid infections in Ireland
 fig, (ax1, ax2) = plt.subplots(nrows=2, ncols=1, figsize=(10, 10), gridspec_kw={'height_ratios': [1, 2]})
 fig.suptitle('Infections and deaths in Ireland')
 ireland["confirmed"].plot(y='confirmed', title='Covid-19 spreading in Ireland', ax=ax1)
 ireland["deaths"].plot(y='deaths', title='Covid-19 deaths in Ireland', ax=ax2)
 plt.show()
+
+# Insight 3:
+fig, axes = plt.subplots(2, 2, sharex=True, figsize=(10, 10))
+
+fig.suptitle('Infection and death rates')
+axes[0][0].set_title('Ireland Covid Infection')
+sns.distplot(x=ireland["confirmed"], fit=stats.gamma, axlabel="Infection rate", label="Infection distribution",
+             ax=axes[0][0])
+axes[0][1].set_title("Ireland Covid Deaths")
+sns.boxplot(ax=axes[0][1], x=ireland["deaths"])
+
+axes[1][0].set_title('US Covid Infection')
+sns.distplot(x=us["confirmed"], fit=stats.gamma, axlabel="Infection rate", label="Infection distribution",
+             ax=axes[1][0])
+axes[1][1].set_title("US Covid Deaths")
+sns.boxplot(ax=axes[1][1], x=us["deaths"])
+
+plt.show()
+# fig, (ax[1][0], ax[1][0], ax[0][0], ax[0][0]) =plt.subplots(nrows=2, ncols=2, figsize=(18,12))
+# plt.subplots_adjust(hspace=0.4, top=0.8)
+
+# Loan amount distribution plots
+
+# sns.distplot(us["confirmed"], fit=stats.gamma, axlabel="Infection rate", label="Infection distribution", ax=ax1[0][0])
+# sns.boxplot(us["confirmed"], ax=ax2[0][0])
+# plt.show()
+# bw_adjust controls the smoothing
+# sns.displot(x= tmp.loan_amnt, label="Loan Amount Frequency distribution", kind="kde", bw_adjust=4, ax=ax[0][2])
+# sns.displot(x= tmp.loan_amnt, label="Loan Amount Frequency distribution", kind="kde", bw_adjust=0.2, ax=ax[0][3])
