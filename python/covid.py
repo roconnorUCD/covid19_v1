@@ -183,6 +183,19 @@ axes[1][1].set_title("US Covid Deaths")
 sns.boxplot(ax=axes[1][1], x=us["deaths"])
 
 plt.show()
+
+# Insight 4 - Load Ireland specific data
+
+ireland_infected = raw_confirmed[raw_confirmed['Country/Region'] == 'Ireland']
+ireland_death = raw_deaths[raw_deaths['Country/Region'] == 'Ireland']
+ireland_last_day = ireland_infected.iloc[:, -1].name
+
+ireland_fig= px.scatter_mapbox(ireland_infected, lat=ireland_infected.Lat, lon=ireland_infected.Long,
+                           color=ireland_last_day,
+                           size=ireland_last_day, hover_name='Country/Region', zoom=8,
+                           mapbox_style='open-street-map', title='Confirmed cases Covid-19 Ireland map.')
+ireland_fig.show()
+
 # fig, (ax[1][0], ax[1][0], ax[0][0], ax[0][0]) =plt.subplots(nrows=2, ncols=2, figsize=(18,12))
 # plt.subplots_adjust(hspace=0.4, top=0.8)
 
